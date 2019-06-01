@@ -29,24 +29,16 @@ class UILayer{
     }
     push(e : egret.TouchEvent){
         UILayer.onTouch = true;
-        if(e.stageX > Game.width/2 && !UILayer.onLeft){
-            this.turnRight(true);
-        }
-        else if(e.stageX < Game.width/2 && !UILayer.onRight){
-            this.turnRight(false);
-        }
+        Player.I.setToMoveAngle();
 
     }
     move(e : egret.TouchEvent){
-        UILayer.onTouch = true;
-
-                
+        //UILayer.onTouch = true;
     }
 
     end(){
+        
         UILayer.onTouch = false;
-        UILayer.onRight = false;
-        UILayer.onLeft = false;
 
     }
 

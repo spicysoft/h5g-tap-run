@@ -1,8 +1,11 @@
 enum ChipType{
-    NONE = 0,
-    LOAD = 1,
-    RUN = 2,
-    TARGET = 3,
+    NONE        = 0,
+    LOAD        = 1,
+    RUN         = 2,
+    TURN        = 3,
+    TURN_RIGHT  = 4,
+    TURN_LEFT   = 5,
+    JUMP        = 6,
 }
 enum MapType{
     STRAIGHT_UP = 0,
@@ -34,21 +37,22 @@ class Map extends GameObject{
             case CourseType.ZERO:
             break;
             case CourseType.ONE:
-                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false);
-                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false);
-                this.setMap(MapType.RIGHT_CURVE,            false,  false,  false);
-                this.setMap(MapType.STRAIGHT_UP,            false,  false,  false);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    true,   false,  false);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false);
-                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false);
-                this.setMap(MapType.STRAIGHT_RIGHT,         false,  false,  false);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false);
-                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false);
+                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false,  true);
+                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false,  true);
+                this.setMap(MapType.RIGHT_CURVE,            false,  false,  false,  false);
+                this.setMap(MapType.STRAIGHT_UP,            false,  false,  false,  true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,    true,   false,  false,  true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false,  false);
+                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false,  true);
+                this.setMap(MapType.STRAIGHT_RIGHT,         false,  false,  false,  false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false,  false);
+                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false,  true);
             break;
         }
     }
 
-    setMap(mapNumber : number, reverseX : boolean, toUp:boolean, toRight:boolean){
+    //nowVertical = ture で現在垂直方向へ進行中、false で水平方向へ進行中。
+    setMap(mapNumber : number, reverseX : boolean, toUp:boolean, toRight:boolean, nowVertical:boolean){
 
         const map = this.map(mapNumber);
         let posX :number = 0;
@@ -73,8 +77,37 @@ class Map extends GameObject{
                 else if ( map[orderY][orderX] === ChipType.RUN ){
                     new Run(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
                 }
-                else if ( map[orderY][orderX] === ChipType.TARGET ){
-                    new TargetPoint(posX, posY,Game.mapChipWidth*2, Game.mapChipHeight*2);
+                else if ( map[orderY][orderX] === ChipType.TURN ){
+                    if(nowVertical){
+                        if(toUp && toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
+                        }
+                        else if(toUp && !toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
+                        }
+                        else if(!toUp && toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
+                        }
+                        else if(!toUp && !toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
+                        }
+
+                    }
+                    else{
+                        if(toUp && toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
+                        }
+                        else if(toUp && !toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
+                        }
+                        else if(!toUp && toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
+                        }
+                        else if(!toUp && !toRight){
+                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
+                        }
+
+                    }
                 }
             }
         }
@@ -122,22 +155,22 @@ class Map extends GameObject{
         switch(mapNumber){
             case MapType.STRAIGHT_UP:
                 map =[
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,3,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,3,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
                     ]
             break;
             case MapType.STRAIGHT_RIGHT:
@@ -147,11 +180,11 @@ class Map extends GameObject{
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
-                    [1,3,1,1,1,1,1,3,1],
+                    [0,0,0,0,0,0,0,0,0],
                     [1,1,1,1,1,1,1,1,1],
                     [2,2,2,2,2,2,2,2,2],
                     [1,1,1,1,1,1,1,1,1],
-                    [1,1,1,1,1,1,1,1,1],
+                    [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
@@ -167,31 +200,31 @@ class Map extends GameObject{
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
-                    [0,0,1,1,1,1,1,1,1],
-                    [0,0,1,1,1,1,1,1,1],
-                    [0,0,1,1,1,1,1,2,2],
-                    [0,0,1,1,1,1,2,1,1],
-                    [0,0,1,1,1,2,1,1,1],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,1,1,1,1,1,1],
+                    [0,0,0,1,3,2,2,2,2],
+                    [0,0,0,1,2,1,1,1,1],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
                     ]
             break;
             case MapType.RIGHT_CURVE_REVERSE:
                 map =[
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,2,1,1,0,0],
-                    [0,0,1,1,1,2,1,1,1],
-                    [0,0,1,1,1,1,2,1,1],
-                    [0,0,1,1,1,1,1,2,2],
-                    [0,0,1,1,1,1,1,1,1],
-                    [0,0,1,1,1,1,1,1,1],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0,1,2,1,1,1,1],
+                    [0,0,0,1,3,2,2,2,2],
+                    [0,0,0,1,1,1,1,1,1],
+                    [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
@@ -326,24 +359,25 @@ class Run extends Chip{
 
 }
 
-class TargetPoint extends PhysicsObject{
+class Turn extends PhysicsObject{
 
     static chipNumber : number = 0;
     public number : number = 0;
-    static target:TargetPoint[]=[];
+    static turn:Turn[]=[];
+    
 
-    constructor(x : number, y:number, width:number, height:number) {
+    constructor(x : number, y:number, width:number, height:number, collisionGroup:GraphicShape) {
         super(x, y, width,height);
-        this.setBody(x,y,width,height);
+        this.setBody(x,y,width,height, collisionGroup);
         this.setShape(0, 0, width,height,ColorPallet.WHITE);
 
-        TargetPoint.target.push(this);
-        this.number = TargetPoint.chipNumber;
-        TargetPoint.chipNumber += 1;
+        Turn.turn.push(this);
+        this.number = Turn.chipNumber;
+        Turn.chipNumber += 1;
         
     }
 
-    private setBody(x : number, y : number, width : number, height : number){
+    private setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
 
         this.body = new p2.Body({mass : 1, 
             position:[x,y], 
@@ -353,8 +387,8 @@ class TargetPoint extends PhysicsObject{
             width : width, height: height, 
             fixedRotation:true, 
             sensor:true,
-            collisionGroup: GraphicShape.TARGET, 
-            collisionMask:GraphicShape.BOX
+            collisionGroup: collisionGroup, 
+            collisionMask:GraphicShape.PLAYER
         });
         this.body.position[0] += width/2;
         this.body.position[1] += height/2;
@@ -368,8 +402,8 @@ class TargetPoint extends PhysicsObject{
         const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true);
         this.compornent.addChild(shape);
         this.shapes.push(shape);
-/*        this.compornent.anchorOffsetX += width/2;
-        this.compornent.anchorOffsetY += height/2;*/
+        //this.compornent.anchorOffsetX += width/2;
+        //this.compornent.anchorOffsetY += height/2;
         
 
     }

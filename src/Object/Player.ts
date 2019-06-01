@@ -15,6 +15,9 @@ class Player extends PhysicsObject{
     private speed : number = 2.5;
 
     private targetPoint : number[] = [0,0];
+    public toMoveAngle : number = 270;
+    private touchNubmer : number = 0;
+    private alreadyClick : boolean = false;
 
 
 
@@ -25,11 +28,18 @@ class Player extends PhysicsObject{
         this.ballPosX = Game.width* 0.5;
         this.ballPosY = Game.height* 0.50;
         //this.maxBallPosY = this.ballPosY;
-        this.setBody(x,y,width,height);
-        this.setShape(0,0,width,height,ColorPallet.WHITE);
+        this.setBody(x,y,width*2);
+        this.setShape(0,0,width,ColorPallet.WHITE);
 
         this.acceleration[0] = Math.cos(Util.toRadian(270))*this.speed;
         this.acceleration[1] = Math.sin(Util.toRadian(270))*this.speed;
+
+        if(Turn.turn[0].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
+            this.toMoveAngle += 90;
+        }
+        else if(Turn.turn[0].bodyShape.collisionGroup == GraphicShape.TURN_LEFT){
+            this.toMoveAngle -= 90;
+        }        
 
         PhysicsObject.world.on("beginContact", this.collision, this);
 
@@ -37,25 +47,25 @@ class Player extends PhysicsObject{
 
     }
 
-    private setShape(x:number, y:number,width:number, height:number,color:number){
-        const shape : egret.Shape = Util.setRect(x,y,width,height,color,20,true);
+    private setShape(x:number, y:number,width:number,color:number){
+        const shape : egret.Shape = Util.setCircle(x,y,width,color,true);
         this.compornent.addChild(shape);
         this.shapes.push(shape);
     }
 
-    private setBody(x: number, y:number,width : number, height : number){
+    private setBody(x: number, y:number,radius : number){
 
         this.body = new p2.Body({
             mass : 1, 
             angle : 270,
             position:[x,y],
         });
-        this.bodyShape = new p2.Box({
-            width : width,
-            height: height, 
+        this.bodyShape = new p2.Circle({
+            radius : radius,
+            //height: height, 
             fixedRotation:true,
-            collisionGroup: GraphicShape.BOX, 
-            collisionMask:GraphicShape.TARGET,
+            collisionGroup: GraphicShape.PLAYER, 
+            collisionMask:GraphicShape.TURN_LEFT | GraphicShape.TURN_RIGHT,
         });
         this.body.addShape(this.bodyShape);
         PhysicsObject.world.addBody(this.body);
@@ -65,7 +75,7 @@ class Player extends PhysicsObject{
 
 
     addDestroyPhysicsMethod(){
-        PhysicsObject.world.off("beginContact", this.collision);        
+        //PhysicsObject.world.off("beginContact", this.collision);        
     }
 
     collision(evt){
@@ -74,37 +84,56 @@ class Player extends PhysicsObject{
         const bodyB: p2.Body = evt.bodyB;
         const shapeB  = evt.shapeB;
         
-        if(shapeA.collisionGroup == GraphicShape.TARGET || shapeB.collisionGroup == GraphicShape.TARGET){
-            TargetPoint.target.forEach(t =>{
-                if(t.body == bodyA){
-                    console.log(t.number);
-                    this.targetPoint = [TargetPoint.target[t.number + 1].compornent.x, TargetPoint.target[t.number + 1].compornent.y];
-                    return;
+        Turn.turn.forEach(t =>{
+            if(bodyA == t.body || bodyB == t.body){
+                this.alreadyClick = false;
+/*                if(t == Turn.turn[0]){return;}
+                if(Turn.turn[t.number + 1].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
+                    this.toMoveAngle += 90;
+                    console.log(this.toMoveAngle);
+                    
                 }
-                else if(t.body == bodyB){
-                    console.log(t.number);
-                    this.targetPoint = [TargetPoint.target[t.number + 1].compornent.x, TargetPoint.target[t.number + 1].compornent.y];
-                    return;
-                }
-            });
+                else if(Turn.turn[t.number + 1].bodyShape.collisionGroup == GraphicShape.TURN_LEFT){
+                    this.toMoveAngle -= 90;
+                    console.log(this.toMoveAngle);
+                }*/
+                return;
+            }
+
+        });
+ 
+    }
+
+    setToMoveAngle(){
+
+
+        Player.I.body.angle = Player.I.toMoveAngle;
+        Player.I.touchNubmer++;
+        if(this.alreadyClick){return;}
+
+        if(Turn.turn.length <= this.touchNubmer){
+            console.log("turnがありません");
+            return;
+        }
+        if(this.touchNubmer == 0){return;}
+
+        if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
+            this.toMoveAngle += 90;           
+        }
+        else if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_LEFT){
+            this.toMoveAngle -= 90;
         }
 
-/*        if(shapeA.collisionGroup == GraphicShape.COIN || shapeB.collisionGroup == GraphicShape.COIN){
-            CreateGameScene.coin.forEach(c =>{
-                if(c.body == bodyA){
-                    c.destroy();
-                    Score.addScore();                  
-                    return;
-                }
-                else if(c.body == bodyB){
-                    c.destroy();
-                    Score.addScore();
-                    return;
-                }
-            });
-        }*/
-               
- 
+        if(this.body.angle < 0){//0~360°へ正規化
+            this.body.angle %= 360;
+            this.body.angle += 360;
+        }
+        else if(this.body.angle > 360){
+            this.body.angle %= 360;            
+        }
+
+        this.alreadyClick = true;
+
     }
 
     move(){
@@ -152,7 +181,7 @@ class Player extends PhysicsObject{
 
      fixedUpdate(){
         this.move();
-        this.turn();
+        //this.turn();
         this.updateDrowShape();
         this.updateBodyAngle();
 
@@ -195,6 +224,7 @@ class Player extends PhysicsObject{
     setVelocity(vector:number[]){
         this.body.velocity = vector;
     }
+
 
 }
 
