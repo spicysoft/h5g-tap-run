@@ -12,7 +12,7 @@ class Player extends PhysicsObject{
     //private velocity : number[] = [0,0];
     private velocityLimit : number = 10;
     private acceleration : number[] = [0,0];
-    private speed : number = 2.5;
+    private speed : number = 1;
 
     private targetPoint : number[] = [0,0];
     public toMoveAngle : number = 270;
@@ -28,16 +28,19 @@ class Player extends PhysicsObject{
         this.ballPosX = Game.width* 0.5;
         this.ballPosY = Game.height* 0.50;
         //this.maxBallPosY = this.ballPosY;
-        this.setBody(x,y,width*2);
+        this.setBody(x,y,width*1);
         this.setShape(0,0,width,ColorPallet.WHITE);
 
         this.acceleration[0] = Math.cos(Util.toRadian(270))*this.speed;
         this.acceleration[1] = Math.sin(Util.toRadian(270))*this.speed;
 
-        if(Turn.turn[0].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
+        if(!Turn.turn[0]){
+
+        }
+        else if(Turn.turn[0].turnRight){
             this.toMoveAngle += 90;
         }
-        else if(Turn.turn[0].bodyShape.collisionGroup == GraphicShape.TURN_LEFT){
+        else if(!Turn.turn[0].turnRight){
             this.toMoveAngle -= 90;
         }        
 
@@ -109,7 +112,7 @@ class Player extends PhysicsObject{
 
         Player.I.body.angle = Player.I.toMoveAngle;
         Player.I.touchNubmer++;
-        if(this.alreadyClick){return;}
+        //if(this.alreadyClick){return;}
 
         if(Turn.turn.length <= this.touchNubmer){
             console.log("turnがありません");
@@ -117,12 +120,21 @@ class Player extends PhysicsObject{
         }
         if(this.touchNubmer == 0){return;}
 
-        if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
+        if(Turn.turn[this.touchNubmer].jump == true){
+
+        }
+        else if(Turn.turn[this.touchNubmer].turnRight){
+            this.toMoveAngle += 90;           
+        }
+        else if(!Turn.turn[this.touchNubmer].turnRight){
+            this.toMoveAngle -= 90;
+        }
+/*        if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
             this.toMoveAngle += 90;           
         }
         else if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_LEFT){
             this.toMoveAngle -= 90;
-        }
+        }*/
 
         if(this.body.angle < 0){//0~360°へ正規化
             this.body.angle %= 360;

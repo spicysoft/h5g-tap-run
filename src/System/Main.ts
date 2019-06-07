@@ -59,7 +59,6 @@ class Game{
         new GameStage();
         new UILayer();
         new Map();
-        new Map();
         //new Ground(0,Game.height-200,Game.width,0,4,ColorPallet.RED);
         new Player(Game.width/2,Game.height-250,Game.width*0.06,Game.width*0.1);
 /*        new Score(0,0,0,0, ColorPallet.BLUE);

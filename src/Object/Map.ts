@@ -12,11 +12,23 @@ enum MapType{
     STRAIGHT_RIGHT = 1,
     RIGHT_CURVE = 2,
     RIGHT_CURVE_REVERSE = 3,
+    RIGHT_CURVE_ZIGZAG = 4,
+    RIGHT_CURVE_ZIGZAG2 = 5,
 
 }
 enum CourseType{
-    ZERO,
-    ONE,
+    NONE,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
 }
 
 class Map extends GameObject{
@@ -26,33 +38,107 @@ class Map extends GameObject{
 
     constructor(){
         super();
-        this.createMap();
+        for(let i=0;i<10;i++){
+            const random :number = Util.randomInt(1,CourseType.I);
+            this.createMap(random);
+        }
     }
 
-    createMap(){
+    createMap(courseType){
 
-        const courseType : number = 1;
+        //const courseType : number = 1;
 
+        //コースはSTRAIGHT_UP系で始まりSTRAIGHT_UP系で終わること
         switch(courseType){
-            case CourseType.ZERO:
+            case CourseType.NONE:
             break;
-            case CourseType.ONE:
-                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false,  true);
-                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false,  true);
-                this.setMap(MapType.RIGHT_CURVE,            false,  false,  false,  false);
-                this.setMap(MapType.STRAIGHT_UP,            false,  false,  false,  true);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    true,   false,  false,  true);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false,  false);
-                this.setMap(MapType.RIGHT_CURVE,            true,   true,   false,  true);
-                this.setMap(MapType.STRAIGHT_RIGHT,         false,  false,  false,  false);
-                this.setMap(MapType.RIGHT_CURVE_REVERSE,    false,  true,   false,  false);
-                this.setMap(MapType.STRAIGHT_UP,            false,  true,   false,  true);
+            case CourseType.A:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE,        false);
+                this.setMap(MapType.STRAIGHT_RIGHT,     false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.STRAIGHT_UP,        false);
             break;
+            case CourseType.B:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.C:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.RIGHT_CURVE,        false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.D:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.E:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        false);
+                this.setMap(MapType.STRAIGHT_RIGHT,     false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.F:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE_ZIGZAG,false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.G:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE_ZIGZAG,true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.H:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE_ZIGZAG2,true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+            case CourseType.I:
+                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.RIGHT_CURVE,        true);
+                this.setMap(MapType.STRAIGHT_RIGHT,     true);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
+                this.setMap(MapType.RIGHT_CURVE_ZIGZAG2,false);
+                this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
+                this.setMap(MapType.STRAIGHT_UP,        false);
+            break;
+
         }
     }
 
     //nowVertical = ture で現在垂直方向へ進行中、false で水平方向へ進行中。
-    setMap(mapNumber : number, reverseX : boolean, toUp:boolean, toRight:boolean, nowVertical:boolean){
+    setMap(mapNumber : number, reverseX : boolean){
 
         const map = this.map(mapNumber);
         let posX :number = 0;
@@ -60,8 +146,8 @@ class Map extends GameObject{
 
         for (let y = 0; y < map.length; y++) {
             for (let x = 0; x < map[y].length; x++) {
-                let orderX :number = this.checkReverseOrderX(x,y,map,toRight);
-                let orderY :number = this.checkReverseOrderY(y,map,toUp);
+                let orderX :number = this.checkReverseOrderX(x,y,map,reverseX);
+                let orderY :number = this.reverseOrderY(y,map);
 
                 if(!reverseX){posX = Game.mapChipWidth * orderX + Map.createLineX;}
                 else{posX = Game.mapChipWidth * (map[orderY].length-1 - orderX) + Map.createLineX;}
@@ -77,77 +163,37 @@ class Map extends GameObject{
                 else if ( map[orderY][orderX] === ChipType.RUN ){
                     new Run(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
                 }
-                else if ( map[orderY][orderX] === ChipType.TURN ){
-                    if(nowVertical){
-                        if(toUp && toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
-                        }
-                        else if(toUp && !toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
-                        }
-                        else if(!toUp && toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
-                        }
-                        else if(!toUp && !toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
-                        }
-
-                    }
-                    else{
-                        if(toUp && toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
-                        }
-                        else if(toUp && !toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
-                        }
-                        else if(!toUp && toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT);
-                        }
-                        else if(!toUp && !toRight){
-                            new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT);
-                        }
-
-                    }
+                else if ( map[orderY][orderX] === ChipType.TURN_RIGHT ){
+                    new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT, mapNumber, reverseX, true, false);
                 }
+                else if ( map[orderY][orderX] === ChipType.TURN_LEFT ){
+                    new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT, mapNumber, reverseX, false, false);
+                }
+                else if ( map[orderY][orderX] === ChipType.JUMP ){
+                    new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT, mapNumber, reverseX, false, true);
+                }
+                
             }
         }
 
-        this.setCreateLine(mapNumber,reverseX,toUp,toRight);
-
-/*        function checkReverseOrderY(y:number, map:number[][], toUp:boolean):number{
-            let orderY :number = y;
-            if(toUp){
-                orderY = (map.length -1) - y;
-            }
-            return orderY;
-        }
-        function checkReverseOrderX(x:number, y:number, map:number[][], toRight:boolean):number{
-            let orderX :number = x;
-            if(!toRight){
-                orderX = (map[y].length -1) - x;
-            }
-            return orderX;
-        }*/
+        this.setCreateLine(mapNumber,reverseX);
 
     }
 
     //ターゲットポイントを進行方向順に生成する用
-    checkReverseOrderX(x:number, y:number, map:number[][], toRight:boolean):number{
+    checkReverseOrderX(x:number, y:number, map:number[][], reverseX:boolean):number{
         let orderX :number = x;
-        if(!toRight){
+        if(reverseX){
             orderX = (map[y].length -1) - x;
         }
         return orderX;
     }
 
-    checkReverseOrderY(y:number, map:number[][], toUp:boolean):number{
+    reverseOrderY(y:number, map:number[][]):number{
         let orderY :number = y;
-        if(toUp){
-            orderY = (map.length -1) - y;
-        }
+        orderY = (map.length -1) - y;
         return orderY;
     }
-
 
     map(mapNumber : number){
         let map : number[][] = [];
@@ -155,122 +201,96 @@ class Map extends GameObject{
         switch(mapNumber){
             case MapType.STRAIGHT_UP:
                 map =[
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
+                    [0,2,0],
+                    [0,2,0],
+                    [0,2,0],
+                    [0,2,0],
                     ]
             break;
             case MapType.STRAIGHT_RIGHT:
                 map =[
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [1,1,1,1,1,1,1,1,1],
-                    [2,2,2,2,2,2,2,2,2],
-                    [1,1,1,1,1,1,1,1,1],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0],
+                    [2,2,2],
+                    [0,0,0],
+                    [0,0,0],
                     ]
             break;
             case MapType.RIGHT_CURVE:
                 map =[
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,1,1,1,1,1,1],
-                    [0,0,0,1,3,2,2,2,2],
-                    [0,0,0,1,2,1,1,1,1],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
+                    [0,0,0],
+                    [0,4,2],
+                    [0,2,0],
+                    [0,2,0],
                     ]
             break;
             case MapType.RIGHT_CURVE_REVERSE:
                 map =[
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,0,0,0],
-                    [0,0,0,1,2,1,1,1,1],
-                    [0,0,0,1,3,2,2,2,2],
-                    [0,0,0,1,1,1,1,1,1],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
+                    [0,2,0],
+                    [0,4,2],
+                    [0,0,0],
+                    [0,0,0],
                     ]
-
+            break;
+            case MapType.RIGHT_CURVE_ZIGZAG:
+                map =[
+                    [0,0,0],
+                    [0,0,4],
+                    [0,4,5],
+                    [0,2,0],
+                    ]
+            break;
+            case MapType.RIGHT_CURVE_ZIGZAG2:
+                map =[
+                    [0,0,0],
+                    [0,0,4],
+                    [0,0,2],
+                    [0,4,5],
+                    ]
             break;
 
         }
         return map;
     }
 
-    setCreateLine(mapNumber : number, reverseX : boolean, toUp:boolean, toRight:boolean){
+    setCreateLine(mapNumber : number, reverseX : boolean){
         switch(mapNumber){
             case MapType.STRAIGHT_UP:
-                if(toUp){Map.createLineY -= Game.height;}
-                else{Map.createLineY += Game.height;}
+                Map.createLineY -= Game.height/4;
             break;
             case MapType.STRAIGHT_RIGHT:
-                if(toRight){Map.createLineX += Game.width;}
-                else{Map.createLineX -= Game.width;}
+                if(!reverseX){Map.createLineX += Game.width/3;}
+                else{Map.createLineX -= Game.width/3;}
             break;
             case MapType.RIGHT_CURVE:
-                if(!reverseX){                   
-                    if      (toUp   && toRight) {Map.createLineX += Game.width;}
-                    else if (!toUp  && !toRight){Map.createLineY += Game.height;}
-                    else                        {console.log("toUpかtoRightが間違っています");}
+                if(!reverseX){
+                    Map.createLineX += Game.width/3;
                 }
                 else{
-                    if      (toUp   && !toRight){Map.createLineX -= Game.width;}
-                    else if (!toUp  && toRight) {Map.createLineY += Game.height;}
-                    else                        {console.log("toUpかtoRightが間違っています");}
+                    Map.createLineX -= Game.width/3;
                 }
             break;
             case MapType.RIGHT_CURVE_REVERSE:
                 if(!reverseX){
-                    if      (toUp   && !toRight){Map.createLineY -= Game.height;}
-                    else if (!toUp  && toRight) {Map.createLineX += Game.width;}
-                    else                        {console.log("toUpかtoRightが間違っています");}
+                    Map.createLineY -= Game.height/4;
                 }
                 else{
-                    if      (toUp && toRight)   {Map.createLineY -= Game.height;}
-                    else if (!toUp && !toRight) {Map.createLineX -= Game.width;}
-                    else                        {console.log("toUpかtoRightが間違っています");}
+                    Map.createLineY -= Game.height/4;
+                }
+            break;
+            case MapType.RIGHT_CURVE_ZIGZAG:
+                if(!reverseX){
+                    Map.createLineX += Game.width/3;
+                }
+                else{
+                    Map.createLineX -= Game.width/3;
+                }
+            break;
+            case MapType.RIGHT_CURVE_ZIGZAG2:
+                if(!reverseX){
+                    Map.createLineX += Game.width/3;
+                }
+                else{
+                    Map.createLineX -= Game.width/3;
                 }
             break;
 
@@ -361,20 +381,32 @@ class Run extends Chip{
 
 class Turn extends PhysicsObject{
 
+    static turn:Turn[]=[];
     static chipNumber : number = 0;
     public number : number = 0;
-    static turn:Turn[]=[];
+    public turnRight : boolean = false;
+    public jump : boolean = false;
+
     
 
-    constructor(x : number, y:number, width:number, height:number, collisionGroup:GraphicShape) {
+    constructor(x : number, y:number, width:number, height:number, collisionGroup:GraphicShape,mapNumber:number,reverseX:boolean, turnRight:boolean,jump:boolean) {
         super(x, y, width,height);
         this.setBody(x,y,width,height, collisionGroup);
         this.setShape(0, 0, width,height,ColorPallet.WHITE);
-
         Turn.turn.push(this);
+
         this.number = Turn.chipNumber;
         Turn.chipNumber += 1;
-        
+        if(reverseX){
+            this.turnRight = !turnRight;
+        }
+        else{
+            this.turnRight = turnRight;
+        }
+        this.jump = jump;
+
+        this.replaceTurnChip(mapNumber,this.number, reverseX);
+       
     }
 
     private setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
@@ -407,6 +439,28 @@ class Turn extends PhysicsObject{
         
 
     }
+
+    //chipは配列の関係上左から右へ配置されるので、右折の時は問題ないが、
+    //zigzagで左折を使いたい場合、chipNumberの順番にplayerが通らないことあるのでその補正。
+    //入れ替えは一行につき一回まで。
+    //GraphicShapeは考慮していない。
+    replaceTurnChip(mapNumber:number,nowNumber:number, reverseX:boolean){
+        if(nowNumber-1 < 0){return;}
+        if(!reverseX){return;}
+        if(mapNumber == MapType.RIGHT_CURVE_ZIGZAG || mapNumber == MapType.RIGHT_CURVE_ZIGZAG2){
+            if(Turn.turn[nowNumber].compornent.y != Turn.turn[nowNumber-1].compornent.y){return;}
+            if(Turn.turn[nowNumber].compornent.x <= Turn.turn[nowNumber-1].compornent.x){return;}
+            if(Turn.turn[nowNumber].number > Turn.turn[nowNumber-1].number){
+
+                const nowTurn : Turn= Turn.turn[nowNumber];
+                const beforeTurn : Turn= Turn.turn[nowNumber-1];
+                Turn.turn[nowNumber] = beforeTurn;
+                Turn.turn[nowNumber-1] = nowTurn;
+            }
+
+        }
+    }
+
 
     fixedUpdate(){}
 

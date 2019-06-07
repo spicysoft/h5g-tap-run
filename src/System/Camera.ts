@@ -6,12 +6,12 @@ class Camera2D{
     static initial(){
         Camera2D.x = 0;
         Camera2D.y = 0;
-        Camera2D.scale = 0.5;
+        Camera2D.scale = 1;
     }
 
     static transform( display:egret.DisplayObject, objScale:number = 1 ){
-        display.x = Camera2D.transX( display.x );
-        display.y = Camera2D.transY( display.y );
+        display.x = Camera2D.transX( display.x ) +  Game.width*(1-Camera2D.scale)/2;
+        display.y = Camera2D.transY( display.y ) +  Game.height*(1-Camera2D.scale)/2;
         display.scaleX = display.scaleY = Camera2D.scale * objScale;
     }
 
