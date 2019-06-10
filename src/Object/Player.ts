@@ -12,7 +12,7 @@ class Player extends PhysicsObject{
     //private velocity : number[] = [0,0];
     private velocityLimit : number = 10;
     private acceleration : number[] = [0,0];
-    private speed : number = 1;
+    private speed : number = 1.2;
 
     private targetPoint : number[] = [0,0];
     public toMoveAngle : number = 270;
@@ -124,10 +124,17 @@ class Player extends PhysicsObject{
 
         }
         else if(Turn.turn[this.touchNubmer].turnRight){
-            this.toMoveAngle += 90;           
+            this.toMoveAngle += 90;
+            Camera2D.angle += 45;
+            this.cameraScroll(GameStage.display,Camera2D.angle);
+            console.log(Camera2D.angle);
+            
         }
         else if(!Turn.turn[this.touchNubmer].turnRight){
             this.toMoveAngle -= 90;
+            Camera2D.angle -= 45;
+            this.cameraScroll(GameStage.display,Camera2D.angle);
+            console.log(Camera2D.angle);
         }
 /*        if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
             this.toMoveAngle += 90;           
@@ -146,6 +153,15 @@ class Player extends PhysicsObject{
 
         this.alreadyClick = true;
 
+    }
+
+    cameraScroll(display : egret.DisplayObjectContainer, toAngle : number){
+
+        egret.Tween.get(display) 
+            .to({rotation:toAngle}, 200, egret.Ease.quadIn)
+            .call(()=> {
+                egret.Tween.removeTweens(display);
+            });
     }
 
     move(){

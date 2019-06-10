@@ -40,7 +40,7 @@ class Map extends GameObject{
         super();
         for(let i=0;i<10;i++){
             const random :number = Util.randomInt(1,CourseType.I);
-            this.createMap(random);
+            this.createMap(CourseType.B);
         }
     }
 
