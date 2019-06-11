@@ -15,9 +15,8 @@ class Player extends PhysicsObject{
 
     private velocityLimit : number = 10;
     private acceleration : number[] = [0,0];
-    private speed : number = 6;
+    private speed : number = 5.5;
     private plusSpeed :number = 0;
-    private plusSpeedSign :number = 1;
 
     private targetPoint : number[] = [0,0];
     public toMoveAngle : number = 270;
@@ -94,8 +93,12 @@ class Player extends PhysicsObject{
             const random :number = Util.randomInt(1,CourseType.I);
             Map.I.createMap(random);
 
-            if(this.plusSpeed <= 3){
-                this.plusSpeed += 0.1;
+            if(this.plusSpeed < 3){
+                this.plusSpeed += 0.05;
+            }
+            else if(this.plusSpeed >= 3){
+                this.plusSpeed = 3;
+
             }
 
             const randomType :number = Util.randomInt(Type.NORMAL,Type.SPEED_ROTATE_ZOOM);
@@ -179,13 +182,13 @@ class Player extends PhysicsObject{
         }
 
         function speedDefault(){
-            Player.I.speed = 6 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+            Player.I.speed = 5.5 + Player.I.plusSpeed;
         }
         function highSpeed(){
-            Player.I.speed = 7 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+            Player.I.speed = 6.5 + Player.I.plusSpeed;
         }
         function lowSpeed(){
-            Player.I.speed = 5 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+            Player.I.speed = 5 + Player.I.plusSpeed;
         }
         
     }

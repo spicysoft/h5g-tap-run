@@ -62,7 +62,7 @@ class Game{
         new UILayer();
         new Map();
         new Player(Game.width/2,Game.height/2,Game.mapChipWidth*0.8,Game.mapChipWidth*0.8);
-        // new Description(0,0,0,0, ColorPallet.BLACK);
+        new Description(0,0,0,0, ColorPallet.BLACK);
         new Score(0,0,0,0, ColorPallet.BLACK);
         
     }
