@@ -18,7 +18,7 @@ class Player extends PhysicsObject{
     //private velocity : number[] = [0,0];
     private velocityLimit : number = 10;
     private acceleration : number[] = [0,0];
-    private speed : number = 5;
+    private speed : number = 6;
 
     private targetPoint : number[] = [0,0];
     public toMoveAngle : number = 270;
@@ -36,7 +36,7 @@ class Player extends PhysicsObject{
         this.ballPosY = y;
         //this.maxBallPosY = this.ballPosY;
         // this.setBody(x,y,width/2);
-        this.setBody(x,y,2);
+        this.setBody(x,y,5);
         this.setShape(0,0,width/2,ColorPallet.WHITE);
 
         // this.acceleration[0] = Math.cos(Util.toRadian(270))*this.speed;
