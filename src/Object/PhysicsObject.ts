@@ -47,13 +47,6 @@ abstract class PhysicsObject extends GameCompornent {
 
     //オーバーライド禁止
     updateContent(){
-        if( this.compornent ) {
-/*            if(this.compornent.y > Util.height){
-                this.destroy();
-                return;
-            }*/
-
-        }
         this.fixedUpdate();
     };
 

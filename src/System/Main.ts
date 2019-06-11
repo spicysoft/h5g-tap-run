@@ -1,21 +1,11 @@
 enum ColorPallet{
-
-    //自然
     WHITE = 0xffffff,
-    // RED = 0xde2020,
-    // RED = 0xee4266,
     RED = 0xee5253,
-    // BLUE = 0x27b6f0,
-    // BLUE2 = 0x32bdf8,
-    // BLUE = 0x07beb8,
-    // BLUE = 0x014254,
     BLUE = 0x48dbfb,
     GREEN = 0x89da59,
     VERMILION = 0xf98866,
     BLACK = 0x222f3e,
-
 }
-//const BALL_SIZE_METER = 0.6;
 const PIXEL_PER_METER = 1;
 
 class Main extends eui.UILayer {
@@ -71,12 +61,9 @@ class Game{
         new GameStage();
         new UILayer();
         new Map();
-        //new Ground(0,Game.height-200,Game.width,0,4,ColorPallet.RED);
         new Player(Game.width/2,Game.height/2,Game.mapChipWidth*0.8,Game.mapChipWidth*0.8);
-        new Description(0,0,0,0, ColorPallet.BLACK);
+        // new Description(0,0,0,0, ColorPallet.BLACK);
         new Score(0,0,0,0, ColorPallet.BLACK);
-/*        new Score(0,0,0,0, ColorPallet.BLUE);
-        new CreateGameScene();*/
         
     }
 

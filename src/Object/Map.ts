@@ -31,8 +31,6 @@ enum CourseType{
     G,
     H,
     I,
-    J,
-    K,
 }
 
 class Map extends GameObject{
@@ -46,17 +44,11 @@ class Map extends GameObject{
         Map.I = this;
         const random :number = Util.randomInt(1,CourseType.I);
         this.createMap(random);
-        // for(let i=0;i<1;i++){
-        //     const random :number = Util.randomInt(1,CourseType.I);
-        //     this.createMap(random);
-        // }
     }
 
     createMap(courseType){
 
-        //const courseType : number = 1;
-
-        //コースはSTRAIGHT_UP系で始まりSTRAIGHT_UP系で終わること
+        //コースはSMapType.STARTで始めること
         switch(courseType){
             case CourseType.NONE:
             break;
@@ -162,10 +154,7 @@ class Map extends GameObject{
                 posY = Game.mapChipHeight * orderY + Map.createLineY
 
 
-                if ( map[orderY][orderX] === ChipType.LOAD ){
-                    //new Road(posX, posY, Game.mapChipWidth, Game.mapChipHeight);
-                }
-                else if ( map[orderY][orderX] === ChipType.NONE ){
+                if ( map[orderY][orderX] === ChipType.NONE ){
                     //new None(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
                 }
                 else if ( map[orderY][orderX] === ChipType.RUN ){
@@ -176,9 +165,6 @@ class Map extends GameObject{
                 }
                 else if ( map[orderY][orderX] === ChipType.TURN_LEFT ){
                     new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT, mapNumber, reverseX, false, false);
-                }
-                else if ( map[orderY][orderX] === ChipType.JUMP ){
-                    // new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT, mapNumber, reverseX, false, true);
                 }
                 else if ( map[orderY][orderX] === ChipType.START ){
                     new Start(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
@@ -335,10 +321,7 @@ class Chip extends GameCompornent{
 
 
     constructor(x : number, y:number, width:number, height:number) {
-        super(x, y, width,height);
-        //this.setBody(x,y,width,height);
-        //this.setShape(0, 0, width,height,ColorPallet.BLUE);
-        
+        super(x, y, width,height);        
     }
 
     //override
@@ -351,51 +334,6 @@ class Chip extends GameCompornent{
         this.compornent.height = height;
         GameStage.display.addChildAt(this.compornent, Background.I.index);
     }
-
-
-/*    private setBody(x : number, y : number, width : number, height : number){
-
-        this.body = new p2.Body({mass : 1, 
-            position:[x,y], 
-            type:p2.Body.STATIC
-        });
-        this.bodyShape = new p2.Box({
-            width : width, height: height, 
-            fixedRotation:true, 
-            collisionGroup: GraphicShape.WALL, 
-            collisionMask:GraphicShape.CIECLE
-        });
-        this.body.addShape(this.bodyShape);
-        PhysicsObject.world.addBody(this.body);
-        
-    }*/
-
-    // setShape(x: number, y:number, width:number, height:number,color:number){
-    //     const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true,4);
-    //     this.compornent.addChild(shape);
-    //     this.shapes.push(shape);
-    // }
-
-    // protected setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
-
-    //     this.body = new p2.Body({mass : 1, 
-    //         position:[x,y], 
-    //         type:p2.Body.STATIC
-    //     });
-    //     this.bodyShape = new p2.Box({
-    //         width : width, 
-    //         height: height, 
-    //         fixedRotation:true, 
-    //         sensor:true,
-    //         collisionGroup: collisionGroup, 
-    //         collisionMask:GraphicShape.PLAYER
-    //     });
-    //     this.body.position[0] += width/2;
-    //     this.body.position[1] += height/2;
-    //     this.body.addShape(this.bodyShape);
-    //     PhysicsObject.world.addBody(this.body);
-        
-    // }
 
     setShape(x: number, y:number, width:number, height:number,color:number){
         const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true,4);
@@ -415,21 +353,9 @@ class Chip extends GameCompornent{
 class None extends Chip{
     constructor(x : number, y:number, width:number, height:number) {
         super(x, y, width,height);
-        //this.setBody(x,y,width,height);
-        //this.setShape(0, 0, width,height,ColorPallet.GREEN);
     }
 
 }
-
-// class Road extends Chip{
-//     constructor(x : number, y:number, width:number, height:number) {
-//         super(x, y, width,height);
-//         //this.setBody(x,y,width,height);
-//         this.setShape(0, 0, width,height,ColorPallet.BLUE);
-//     }
-
-// }
-
 
 class Run extends Chip{
 
@@ -438,11 +364,6 @@ class Run extends Chip{
         // this.setBody(x,y,width,height,GraphicShape.RUN);
         this.setShape(0, 0, width,height,ColorPallet.WHITE);
         
-        //処理速度向上用
-        // if(this.body){
-        //     PhysicsObject.world.removeBody(this.body);
-        //     this.body = null;
-        // }
     }
 
 }
@@ -553,8 +474,6 @@ class Start extends PhysicsObject{
         const shape : egret.Shape = Util.setCircle(x,y,radius,color,true);
         this.compornent.anchorOffsetX -= this.compornent.width/2;
         this.compornent.anchorOffsetY -= this.compornent.height/2;
-        // shape.x += this.compornent.width/2;
-        // shape.y += this.compornent.height/2;
         this.compornent.addChild(shape);
         this.shapes.push(shape);
     }
@@ -594,45 +513,8 @@ class Turn extends Chip{
         this.jump = jump;
 
         this.replaceTurnChip(mapNumber,this.number, reverseX);
-
-        //処理速度向上用
-        // if(this.body){
-        //     PhysicsObject.world.removeBody(this.body);
-        //     this.body = null;
-        // }
        
     }
-
-    // protected setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
-
-    //     this.body = new p2.Body({mass : 1, 
-    //         position:[x,y], 
-    //         type:p2.Body.STATIC
-    //     });
-    //     this.bodyShape = new p2.Box({
-    //         width : width, height: height, 
-    //         fixedRotation:true, 
-    //         sensor:true,
-    //         collisionGroup: collisionGroup, 
-    //         collisionMask:GraphicShape.PLAYER
-    //     });
-    //     this.body.position[0] += width/2;
-    //     this.body.position[1] += height/2;
-    //     this.body.addShape(this.bodyShape);
-    //     PhysicsObject.world.addBody(this.body);
-        
-    // }
-
-    // setShape(x: number, y:number, width:number, height:number,color:number){
-
-    //     const shape : egret.Shape = Util.setRect(x,y,width,height,color,30,true,4);
-    //     this.compornent.addChild(shape);
-    //     this.shapes.push(shape);
-    //     //this.compornent.anchorOffsetX += width/2;
-    //     //this.compornent.anchorOffsetY += height/2;
-        
-
-    // }
 
     //chipは配列の関係上左から右へ配置されるので、右折の時は問題ないが、
     //zigzagで左折を使いたい場合、chipNumberの順番にplayerが通らないことあるのでその補正。

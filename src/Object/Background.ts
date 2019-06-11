@@ -5,7 +5,6 @@ class Background extends GameObject{
     static I : Background = null;
     color :number = ColorPallet.BLUE;
 
-    static createPosY : number = 0;
     public index : number;
     
 
@@ -13,8 +12,6 @@ class Background extends GameObject{
     constructor() {
         super();
         Background.I = this;
-        Background.createPosY = 0;
-        //Background.cloud = [];
         this.setCompornent(0,0,Game.width,Game.height);
         this.setShape(0,0,Game.width, Game.height,this.color);
 
@@ -38,16 +35,6 @@ class Background extends GameObject{
         this.shapes.push(shape);
     }
 
-/*    createCloud(){
-        if(Background.createPosY - Player.I.compornent.y  > 500){
-            const x :number = Util.randomInt(0, Game.width);
-            const y :number = Player.I.compornent.y - Game.height * 1.5;
-            Background.createPosY = Player.I.compornent.y;
-            const c: Cloud = new Cloud(x,y,Game.width*0.2,Game.width*0.1);
-            Background.cloud.push(c);
-        }
-        
-    }*/
 
     updateContent() {}
 }

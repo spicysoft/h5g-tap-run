@@ -35,7 +35,6 @@ class Camera2D{
         display.x = Camera2D.transX( display.x ) ;
         display.y = Camera2D.transY( display.y ) ;
         display.scaleX = display.scaleY = Camera2D.scale;
-        //display.rotation = Camera2D.rotate(Camera2D.angle);
     }
 
     static transX( px:number ):number {

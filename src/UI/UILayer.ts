@@ -19,7 +19,7 @@ class UILayer{
         UILayer.index = GameObject.display.getChildIndex(UILayer.display) ;
         //UILayer.display.once( egret.TouchEvent.TOUCH_BEGIN, this.deleteDiscription, this );
         UILayer.display.addEventListener( egret.TouchEvent.TOUCH_BEGIN, this.push, this );
-        UILayer.display.addEventListener( egret.TouchEvent.TOUCH_MOVE, this.move, this );
+        // UILayer.display.addEventListener( egret.TouchEvent.TOUCH_MOVE, this.move, this );
         UILayer.display.addEventListener( egret.TouchEvent.TOUCH_END, this.end, this );
     }
 
@@ -27,22 +27,17 @@ class UILayer{
         UILayer.display = new eui.UILayer();
         GameObject.display.addChild(UILayer.display);
     }
-    push(e : egret.TouchEvent){
+    push(){
         if(GameOver.gameOverFlag){return;}
         if(!Player.gameStart){return;}
         UILayer.onTouch = true;
         Player.I.setToMoveAngle();
         Score.addScore();
+    }
 
-    }
-    move(e : egret.TouchEvent){
-        //UILayer.onTouch = true;
-    }
 
     end(){
-        
         UILayer.onTouch = false;
-
     }
 
     turnRight(onRight : boolean){
@@ -59,7 +54,7 @@ class UILayer{
     remove(){
         if(UILayer.display){
             UILayer.display.removeEventListener( egret.TouchEvent.TOUCH_BEGIN, this.push, this );
-            UILayer.display.removeEventListener( egret.TouchEvent.TOUCH_MOVE, this.move, this );
+            // UILayer.display.removeEventListener( egret.TouchEvent.TOUCH_MOVE, this.move, this );
             UILayer.display.removeEventListener( egret.TouchEvent.TOUCH_END, this.end, this );
             UILayer.display.removeChildren();
             GameObject.display.removeChild(UILayer.display);
