@@ -436,7 +436,7 @@ class Run extends Chip{
     constructor(x : number, y:number, width:number, height:number) {
         super(x, y, width,height);
         // this.setBody(x,y,width,height,GraphicShape.RUN);
-        this.setShape(0, 0, width,height,ColorPallet.RED);
+        this.setShape(0, 0, width,height,ColorPallet.WHITE);
         
         //処理速度向上用
         // if(this.body){
@@ -510,7 +510,7 @@ class Start extends PhysicsObject{
     constructor(x : number, y:number, width:number, height:number) {
         super(x, y, width,height);
         this.setBody(x,y,width/2,GraphicShape.START);
-        this.setShape(0, 0, width/2*3,ColorPallet.RED);
+        this.setShape(0, 0, width/2*3,ColorPallet.WHITE);
         Start.start.push(this);
 
     }

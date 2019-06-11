@@ -1,14 +1,34 @@
+enum Type{
+    NORMAL,
+    ROTATE,
+    ZOOM,
+    SPEED,
+    ROTATE_ZOOM,
+    SPEED_NORMAL,
+    SPEED_ROTATE,
+    SPEED_ZOOM,
+    SPEED_ROTATE_ZOOM,
+}
+
+enum CameraScale{
+    NORMAL = 1.6,
+    ZOOM_IN = 2.0,
+    ZOOM_OUT = 1.2,
+
+}
+
 class Camera2D{
     static x:number = 0;
     static y:number = 0;
     static angle:number = 0;
     static scale:number = 1;
+    static type : Type = Type.NORMAL;
 
     static initial(){
         Camera2D.x = 0;
         Camera2D.y = 0;
         Camera2D.angle = 0;
-        Camera2D.scale = 1.35;
+        Camera2D.scale = CameraScale.NORMAL;
     }
 
     static transform( display:egret.DisplayObject){

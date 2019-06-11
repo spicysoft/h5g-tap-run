@@ -28,9 +28,11 @@ class UILayer{
         GameObject.display.addChild(UILayer.display);
     }
     push(e : egret.TouchEvent){
-        if(Player.gameStart == false){return;}
+        if(GameOver.gameOverFlag){return;}
+        if(!Player.gameStart){return;}
         UILayer.onTouch = true;
         Player.I.setToMoveAngle();
+        Score.addScore();
 
     }
     move(e : egret.TouchEvent){

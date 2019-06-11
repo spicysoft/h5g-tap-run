@@ -3,7 +3,7 @@
 class Background extends GameObject{
 
     static I : Background = null;
-    color :number = ColorPallet.GREEN;
+    color :number = ColorPallet.BLUE;
 
     static createPosY : number = 0;
     public index : number;

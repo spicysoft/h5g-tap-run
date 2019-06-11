@@ -16,8 +16,8 @@ class Description extends UICompornent{
     }
 
     setText(){
-        const t :string = "タップでジャンプ\n\nジャンプ中タップで三角飛び\n\n\nコインを集めてください";
-        this.text = Util.myText(Game.width/2, Game.height/2.4, t, 80, 0.5, this.textColor, true);
+        const t :string = "タップで方向転換\n\n壁に当たるとゲームオーバー";
+        this.text = Util.myText(Game.width/2, Game.height/2.4, t, 90, 0.5, this.textColor, true);
         this.text.anchorOffsetX = this.text.width/2;
         this.text.anchorOffsetY = this.text.height/2;
         this.text.textAlign = egret.HorizontalAlign.CENTER;

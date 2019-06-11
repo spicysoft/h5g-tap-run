@@ -26,7 +26,7 @@ class Score extends UICompornent{
         this.text.x = (Game.width - this.text.width)/2;
         this.compornent.addChild( this.text );
 
-        this.textBest = Util.myText(Game.width*0.11, 0, "BEST:" + Score.bestScore.toString(), 60, 0.5, this.textColor, true);
+        this.textBest = Util.myText(0, 0, "BEST:" + Score.bestScore.toString(), 60, 0.5, this.textColor, true);
         Score.bestScore = SaveData.object.bestScore;
         this.textBest.text = "BEST:" + Score.bestScore.toString();
         this.compornent.addChild( this.textBest );
@@ -63,7 +63,6 @@ class Score extends UICompornent{
 
     static addScore(){
         Score.score += 1;
-        
     }
 
 

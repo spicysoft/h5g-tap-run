@@ -4,6 +4,8 @@ enum Direction{
     LEFT = -1,
 }
 
+
+
 class Player extends PhysicsObject{
 
     static I : Player = null;
@@ -18,7 +20,9 @@ class Player extends PhysicsObject{
     //private velocity : number[] = [0,0];
     private velocityLimit : number = 10;
     private acceleration : number[] = [0,0];
-    private speed : number = 6;
+    private speed : number = 7;
+    private plusSpeed :number = 0;
+    private plusSpeedSign :number = 1;
 
     private targetPoint : number[] = [0,0];
     public toMoveAngle : number = 270;
@@ -37,7 +41,7 @@ class Player extends PhysicsObject{
         //this.maxBallPosY = this.ballPosY;
         // this.setBody(x,y,width/2);
         this.setBody(x,y,5);
-        this.setShape(0,0,width/2,ColorPallet.WHITE);
+        this.setShape(0,0,width/2,ColorPallet.RED);
 
         // this.acceleration[0] = Math.cos(Util.toRadian(270))*this.speed;
         // this.acceleration[1] = Math.sin(Util.toRadian(270))*this.speed;
@@ -92,7 +96,8 @@ class Player extends PhysicsObject{
 
 
     addDestroyPhysicsMethod(){
-        PhysicsObject.world.off("beginContact", this.collision);        
+        PhysicsObject.world.off("beginContact", this.collision);
+        this.speed = 7;
     }
 
     collision(evt){
@@ -104,18 +109,145 @@ class Player extends PhysicsObject{
 
 
         if(shapeA.collisionGroup == GraphicShape.GAMEOVER || shapeB.collisionGroup == GraphicShape.GAMEOVER){
-            console.log("gameover");
-            new GameOver(0,0,0,0);
+            GameOver.gameOverFlag = true;
+            this.smallPlayer(this.compornent,0);
             
         }
 
         if(shapeA.collisionGroup == GraphicShape.START || shapeB.collisionGroup == GraphicShape.START){
             const random :number = Util.randomInt(1,CourseType.I);
             Map.I.createMap(random);
-            
+
+            if(this.plusSpeed <= 2){
+                this.plusSpeed += 0.1;
+            }
+
+            const speedSign:number = Util.randomInt(0,1);
+            if(speedSign == 1){
+                Player.I.plusSpeedSign *= -1;
+            }
+
+            const randomType :number = Util.randomInt(Type.NORMAL,Type.SPEED_ROTATE_ZOOM);
+            Camera2D.type = randomType;
         }
         
          
+    }
+
+    changeCameraType(){
+        switch(Camera2D.type){
+            case Type.NORMAL:
+                zoomDefault();
+                speedDefault();
+            break;
+            case Type.ROTATE:
+                rotate();
+                zoomDefault();
+                speedDefault();
+            break;
+            case Type.ZOOM:
+                if(Camera2D.scale == CameraScale.ZOOM_IN){
+                    zoomDefault();
+                }
+                else if(Camera2D.scale == CameraScale.NORMAL){
+                    zoomIn();
+                }
+                speedDefault();
+            break;
+            case Type.ROTATE_ZOOM:
+                rotate();
+                if(Camera2D.scale == CameraScale.ZOOM_IN){
+                    zoomDefault();
+                }
+                else if(Camera2D.scale == CameraScale.NORMAL){
+                    zoomIn();
+                }
+                speedDefault();
+            break;
+
+            case Type.SPEED:
+                zoomOut();
+                highSpeed();
+            break;
+            case Type.SPEED_NORMAL:
+                zoomDefault();
+                highSpeed();
+            break;
+            case Type.SPEED_ROTATE:
+                rotate();
+                zoomDefault();
+                highSpeed();
+            break;
+            case Type.SPEED_ZOOM:
+                if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                    zoomDefault();
+                }
+                else if(Camera2D.scale == CameraScale.NORMAL){
+                    zoomOut();
+                }
+                highSpeed();
+            break;
+            case Type.SPEED_ROTATE_ZOOM:
+                rotate();
+                if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                    zoomDefault();
+                }
+                else if(Camera2D.scale == CameraScale.NORMAL){
+                    zoomOut();
+                }
+                highSpeed();
+            break;
+        }
+
+        function zoomDefault(){
+            Player.I.cameraZoom(GameStage.display,CameraScale.NORMAL);
+        }
+        function zoomIn(){
+            Player.I.cameraZoom(GameStage.display,CameraScale.ZOOM_IN);
+        }
+        function zoomOut(){
+            Player.I.cameraZoom(GameStage.display,CameraScale.ZOOM_OUT);
+        }
+
+        function rotate(){
+            if(Turn.turn[Player.I.touchNubmer].turnRight){
+                switch(Player.I.direction){
+                    case Direction.FORWARD:
+                        Player.I.direction = Direction.RIGHT;
+                        Camera2D.angle = -45;
+                    break;
+                    case Direction.LEFT:
+                        Player.I.direction = Direction.FORWARD;
+                        Camera2D.angle = 0;
+                    break;
+                }
+                
+            }
+            else if(!Turn.turn[Player.I.touchNubmer].turnRight){
+                switch(Player.I.direction){
+                    case Direction.FORWARD:
+                        Player.I.direction = Direction.LEFT;
+                        Camera2D.angle = 45;
+                    break;
+                    case Direction.RIGHT:
+                        Player.I.direction = Direction.FORWARD;
+                        Camera2D.angle = 0;
+                    break;
+                }
+            }
+            Player.I.cameraRotate(GameStage.display,Camera2D.angle);
+        }
+
+        function speedDefault(){
+            Player.I.speed = 7 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+        }
+        function highSpeed(){
+            Player.I.speed = 8 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+        }
+        function lowSpeed(){
+            Player.I.speed = 6 + Player.I.plusSpeed * Player.I.plusSpeedSign;
+        }
+        
     }
 
     setToMoveAngle(){
@@ -129,41 +261,57 @@ class Player extends PhysicsObject{
         }
         //if(this.touchNubmer == 0){return;}
 
-        if(Turn.turn[this.touchNubmer].jump == true){
 
-        }
-        else if(Turn.turn[this.touchNubmer].turnRight){
-            this.toMoveAngle += 90;
-
-            switch(this.direction){
-                case Direction.FORWARD:
-                    this.direction = Direction.RIGHT;
-                    Camera2D.angle = -45;
-                break;
-                case Direction.LEFT:
-                    this.direction = Direction.FORWARD;
-                    Camera2D.angle = 0;
-                break;
-            }
-
-            this.cameraRotate(GameStage.display,Camera2D.angle);
-            
+        if(Turn.turn[this.touchNubmer].turnRight){
+            this.toMoveAngle += 90;                
         }
         else if(!Turn.turn[this.touchNubmer].turnRight){
             this.toMoveAngle -= 90;
-
-            switch(this.direction){
-                case Direction.FORWARD:
-                    this.direction = Direction.LEFT;
-                    Camera2D.angle = 45;
-                break;
-                case Direction.RIGHT:
-                    this.direction = Direction.FORWARD;
-                    Camera2D.angle = 0;
-                break;
-            }
-            this.cameraRotate(GameStage.display,Camera2D.angle);
         }
+
+        this.changeCameraType();
+
+
+        // if(Turn.turn[this.touchNubmer].jump == true){
+
+        // }
+        // else if(Turn.turn[this.touchNubmer].turnRight){
+        //     this.toMoveAngle += 90;
+
+        //     switch(this.direction){
+        //         case Direction.FORWARD:
+        //             this.direction = Direction.RIGHT;
+        //             Camera2D.angle = -45;
+        //         break;
+        //         case Direction.LEFT:
+        //             this.direction = Direction.FORWARD;
+        //             Camera2D.angle = 0;
+        //         break;
+        //     }
+
+        //     this.cameraRotate(GameStage.display,Camera2D.angle);
+            
+        // }
+        // else if(!Turn.turn[this.touchNubmer].turnRight){
+        //     this.toMoveAngle -= 90;
+
+        //     switch(this.direction){
+        //         case Direction.FORWARD:
+        //             this.direction = Direction.LEFT;
+        //             Camera2D.angle = 45;
+        //         break;
+        //         case Direction.RIGHT:
+        //             this.direction = Direction.FORWARD;
+        //             Camera2D.angle = 0;
+        //         break;
+        //     }
+        //     this.cameraRotate(GameStage.display,Camera2D.angle);
+        // }
+
+
+
+
+
 /*        if(Turn.turn[this.touchNubmer].bodyShape.collisionGroup == GraphicShape.TURN_RIGHT){
             this.toMoveAngle += 90;           
         }
@@ -195,9 +343,32 @@ class Player extends PhysicsObject{
         egret.Tween.get(display) 
             .to({rotation:toAngle}, 150, egret.Ease.quadIn)
             .call(()=> {
-                egret.Tween.removeTweens(display);
-            });
+                Camera2D.angle = toAngle;
+                //egret.Tween.removeTweens(display);
+        });
     }
+
+    cameraZoom(display : egret.DisplayObjectContainer, scale : number){
+
+        egret.Tween.get(display) 
+            .to({scaleX:scale, scaleY:scale}, 150, egret.Ease.quadIn)
+            .call(()=> {
+                Camera2D.scale = scale;
+                //egret.Tween.removeTweens(display);
+        });
+    }
+
+    smallPlayer(display : egret.DisplayObjectContainer, scale : number){
+
+        egret.Tween.get(display) 
+            .to({scaleX:scale, scaleY:scale}, 300, egret.Ease.quadIn)
+            .call(()=> {
+                new GameOver(0,0,0,0);
+                new RetryButton((Game.width - Game.width*0.4)/2, Game.height*0.65, Game.width * 0.4, Game.width*0.18, 80, 0.5, "リトライ");
+                //egret.Tween.removeTweens(display);
+        });
+    }
+
 
     move(){
         this.body.position[0] += Math.cos(Util.toRadian(this.body.angle))*this.speed;

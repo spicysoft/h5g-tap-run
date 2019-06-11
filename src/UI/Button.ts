@@ -1,10 +1,10 @@
 abstract class Button extends UICompornent{
 
     indexText : eui.Label = null;
-    indexTextColor : number = Util.color(230,230,230);
-    shapeColor : number = Util.color(230,0,0);
+    indexTextColor : number = ColorPallet.WHITE;
+    shapeColor : number = ColorPallet.BLACK;
     mask : egret.Shape = null;
-    maskColor : number = Util.color(0,0,0);
+    maskColor : number = ColorPallet.WHITE;
     onMask : boolean = false;
 
     constructor(x : number, y : number, width : number, height : number, index : string){
@@ -13,27 +13,16 @@ abstract class Button extends UICompornent{
     }
 
     setCompornentStatus(x : number, y : number, width : number, height : number){
-        this.compornent.anchorOffsetX += width/2;
-        this.compornent.anchorOffsetY += height/2;
-        this.compornent.x = x;
-        this.compornent.y = y;
         this.compornent.touchEnabled = true;
         this.compornent.addEventListener( egret.TouchEvent.TOUCH_BEGIN, this.tap, this );
     }
 
     setShape(x : number, y : number, width : number, height : number, color?:number){
-        if( this.shapes[0] ){
-            GameObject.display.removeChild(this.shapes[0]);        
-        }
+
         if(color){
             this.shapeColor = color;
         }
-        this.shapes[0] = new egret.Shape();
-        this.shapes[0].x = 0;
-        this.shapes[0].y = 0;
-        this.shapes[0].graphics.beginFill(this.shapeColor);
-        this.shapes[0].graphics.drawRoundRect(0, 0, width , height, 30);
-        this.shapes[0].graphics.endFill();
+        this.shapes[0] = Util.setRect(x,y,width,height,this.shapeColor,70,true);
         this.compornent.addChild(this.shapes[0]);
     }
 
@@ -42,27 +31,21 @@ abstract class Button extends UICompornent{
         if(color){
             this.maskColor = color;
         }
-        this.mask = new egret.Shape();
-        this.mask.x = 0;
-        this.mask.y = 0;
+        this.mask = Util.setRect(x,y,width,height,this.maskColor,70,true);
         this.mask.alpha = 0;
-        this.mask.graphics.beginFill(this.maskColor);
-        this.mask.graphics.drawRoundRect(0, 0, width , height, 30);
-        this.mask.graphics.endFill();
-        this.shapes.push(this.mask);
+        this.shapes[1] = this.mask;
         this.compornent.addChild(this.mask);
     }
     
 
-    setIndexText(x : number, y : number, width : number, height : number, index:string, size?:number,ratio?:number,color?:number){
-        size = size | 80;
-        ratio = ratio | 0.5;
-        this.indexTextColor = color | this.indexTextColor;
+    setIndexText(x : number, y : number, width : number, height : number, size:number, ratio:number, index:string){
         this.indexText = Util.myText(x,y, index, size, ratio, this.indexTextColor, true);
-        this.indexText.width = this.compornent.width/ratio;
-        this.indexText.height = this.compornent.height/ratio;
+        this.indexText.anchorOffsetX = this.indexText.width/2;
+        this.indexText.anchorOffsetY = this.indexText.height/2;
+        this.indexText.x += this.compornent.width/2;
+        this.indexText.y += this.compornent.height/2;
         this.indexText.textAlign = egret.HorizontalAlign.CENTER;
-        //this.indexText.verticalAlign = egret.VerticalAlign.MIDDLE;
+        this.indexText.verticalAlign = egret.VerticalAlign.MIDDLE;
         this.compornent.addChild(this.indexText);
     }
 
@@ -83,3 +66,17 @@ abstract class Button extends UICompornent{
 
 }
 
+class RetryButton extends Button{
+    constructor(x : number, y : number, width : number, height : number, size:number, ratio:number, index : string){
+        super(x, y, width, height, index);
+        this.setShape(0, 0, width, height);
+        this.setIndexText(0,0,width,height,size, ratio,index);
+        this.setMask(x, y, width, height);
+    }
+
+    tap(){
+        GameOver.tap();
+    }
+
+    updateContent(){}
+}
