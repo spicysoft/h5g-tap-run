@@ -6,6 +6,7 @@ enum ColorPallet{
     BLUE = 0x80bd9e,
     GREEN = 0x89da59,
     VERMILION = 0xf98866,
+    BLACK = 0x000000,
 
 }
 //const BALL_SIZE_METER = 0.6;
@@ -51,7 +52,12 @@ class Game{
         this.mapChipWidth = this.width/9;
         this.mapChipHeight = this.height/16;
 
+        Player.gameStart = false;
         GameOver.gameOverFlag = false;
+        Camera2D.initial();
+        Turn.turn = [];
+        Turn.chipNumber = 0;
+        Start.start = [];
 
 
         /* new メソッドを記入*/
@@ -60,9 +66,10 @@ class Game{
         new UILayer();
         new Map();
         //new Ground(0,Game.height-200,Game.width,0,4,ColorPallet.RED);
-        new Player(Game.width/2,Game.height-250,Game.width*0.05,Game.width*0.1);
+        new Player(Game.width/2,Game.height/2,Game.mapChipWidth*0.8,Game.mapChipWidth*0.8);
+        new Description(0,0,0,0, ColorPallet.BLACK);
+        new Score(0,0,0,0, ColorPallet.BLUE);
 /*        new Score(0,0,0,0, ColorPallet.BLUE);
-        new Description(0,0,0,0, ColorPallet.BLUE);
         new CreateGameScene();*/
         
     }

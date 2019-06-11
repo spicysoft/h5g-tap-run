@@ -1,11 +1,14 @@
 //衝突判定用の列挙
 enum GraphicShape{
     NONE        = Math.pow(2,0),
-    PLAYER        = Math.pow(2,1),
-    TURN        = Math.pow(2,6),
-    TURN_RIGHT  = Math.pow(2,7),
-    TURN_LEFT   = Math.pow(2,8),
-    JUMP        = Math.pow(2,9),
+    PLAYER      = Math.pow(2,1),
+    RUN         = Math.pow(2,2),
+    TURN        = Math.pow(2,3),
+    TURN_RIGHT  = Math.pow(2,4),
+    TURN_LEFT   = Math.pow(2,5),
+    JUMP        = Math.pow(2,6),
+    START       = Math.pow(2,7),
+    GAMEOVER    = Math.pow(2,8),
 }
 //連続実行したいメソッドはfixedUpdateへ記入
 //destroy時に実行したいメソッドはaddDestroyPhysicsMethodへ記入

@@ -28,6 +28,7 @@ class UILayer{
         GameObject.display.addChild(UILayer.display);
     }
     push(e : egret.TouchEvent){
+        if(Player.gameStart == false){return;}
         UILayer.onTouch = true;
         Player.I.setToMoveAngle();
 
@@ -64,9 +65,7 @@ class UILayer{
         }
     }
 
-    testMove(){
 
-    }
 
 }
 

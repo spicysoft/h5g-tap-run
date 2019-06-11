@@ -23,14 +23,15 @@ class GameStage extends GameObject{
         }
     }
 
-    updateAnchor(){
-        GameStage.display.anchorOffsetX = Player.I.compornent.x;
-        GameStage.display.anchorOffsetY = Player.I.compornent.y;
 
+    static moveOffset(playerPosX:number, playerPosY:number){
+        const offX :number = playerPosX;
+        const offY :number = playerPosY;
+        GameStage.display.anchorOffsetX = offX;
+        GameStage.display.anchorOffsetY = offY;
     }
 
     updateContent(){
-        //this.updateAnchor();
     }
 
 }

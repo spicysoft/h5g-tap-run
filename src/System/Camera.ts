@@ -7,14 +7,15 @@ class Camera2D{
     static initial(){
         Camera2D.x = 0;
         Camera2D.y = 0;
-        Camera2D.scale = 0.4;
+        Camera2D.angle = 0;
+        Camera2D.scale = 1.35;
     }
 
-    static transform( display:egret.DisplayObject, objScale:number = 1 ){
-        display.x = Camera2D.transX( display.x ) +  Game.width*(1-Camera2D.scale)/2;
-        display.y = Camera2D.transY( display.y ) +  Game.height*(1-Camera2D.scale)/2;
-        display.rotation = Camera2D.rotate(Camera2D.angle);
-        display.scaleX = display.scaleY = Camera2D.scale * objScale;
+    static transform( display:egret.DisplayObject){
+        display.x = Camera2D.transX( display.x ) ;
+        display.y = Camera2D.transY( display.y ) ;
+        display.scaleX = display.scaleY = Camera2D.scale;
+        //display.rotation = Camera2D.rotate(Camera2D.angle);
     }
 
     static transX( px:number ):number {
@@ -25,8 +26,6 @@ class Camera2D{
         return ( Camera2D.y) * Camera2D.scale; 
     }
 
-    static rotate(angle):number{
-        return(Camera2D.angle);
-    }
+
 
 }

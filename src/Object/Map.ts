@@ -6,6 +6,9 @@ enum ChipType{
     TURN_RIGHT  = 4,
     TURN_LEFT   = 5,
     JUMP        = 6,
+    JUMP_END    = 7,
+    START       = 8,
+    GAMEOVER    = 9,
 }
 enum MapType{
     STRAIGHT_UP = 0,
@@ -14,6 +17,7 @@ enum MapType{
     RIGHT_CURVE_REVERSE = 3,
     RIGHT_CURVE_ZIGZAG = 4,
     RIGHT_CURVE_ZIGZAG2 = 5,
+    START = 6,
 
 }
 enum CourseType{
@@ -33,14 +37,16 @@ enum CourseType{
 
 class Map extends GameObject{
 
+    static I :Map = null;
     static createLineX : number = 0;
     static createLineY : number = 0;
 
     constructor(){
         super();
-        for(let i=0;i<10;i++){
+        Map.I = this;
+        for(let i=0;i<1;i++){
             const random :number = Util.randomInt(1,CourseType.I);
-            this.createMap(CourseType.B);
+            this.createMap(random);
         }
     }
 
@@ -53,7 +59,7 @@ class Map extends GameObject{
             case CourseType.NONE:
             break;
             case CourseType.A:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
                 this.setMap(MapType.RIGHT_CURVE,        false);
@@ -62,7 +68,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.B:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        false);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
                 this.setMap(MapType.RIGHT_CURVE,        true);
@@ -71,7 +77,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.C:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        false);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
                 this.setMap(MapType.RIGHT_CURVE,        false);
@@ -79,7 +85,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.D:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
@@ -87,7 +93,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.E:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        false);
                 this.setMap(MapType.STRAIGHT_RIGHT,     false);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,true);
@@ -98,7 +104,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.F:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.STRAIGHT_RIGHT,     true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
@@ -107,7 +113,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.G:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.STRAIGHT_RIGHT,     true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
@@ -116,7 +122,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.H:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.STRAIGHT_RIGHT,     true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
@@ -125,7 +131,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
             case CourseType.I:
-                this.setMap(MapType.STRAIGHT_UP,        false);
+                this.setMap(MapType.START,        false);
                 this.setMap(MapType.RIGHT_CURVE,        true);
                 this.setMap(MapType.STRAIGHT_RIGHT,     true);
                 this.setMap(MapType.RIGHT_CURVE_REVERSE,false);
@@ -155,7 +161,7 @@ class Map extends GameObject{
 
 
                 if ( map[orderY][orderX] === ChipType.LOAD ){
-                    new Road(posX, posY, Game.mapChipWidth, Game.mapChipHeight);
+                    //new Road(posX, posY, Game.mapChipWidth, Game.mapChipHeight);
                 }
                 else if ( map[orderY][orderX] === ChipType.NONE ){
                     //new None(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
@@ -170,7 +176,13 @@ class Map extends GameObject{
                     new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_LEFT, mapNumber, reverseX, false, false);
                 }
                 else if ( map[orderY][orderX] === ChipType.JUMP ){
-                    new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT, mapNumber, reverseX, false, true);
+                    // new Turn(posX, posY,Game.mapChipWidth, Game.mapChipHeight, GraphicShape.TURN_RIGHT, mapNumber, reverseX, false, true);
+                }
+                else if ( map[orderY][orderX] === ChipType.START ){
+                    new Start(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
+                }
+                else if ( map[orderY][orderX] === ChipType.GAMEOVER ){
+                    new GameOverChip(posX, posY,Game.mapChipWidth, Game.mapChipHeight);
                 }
                 
             }
@@ -201,50 +213,58 @@ class Map extends GameObject{
         switch(mapNumber){
             case MapType.STRAIGHT_UP:
                 map =[
-                    [0,2,0],
-                    [0,2,0],
-                    [0,2,0],
-                    [0,2,0],
+                    [9,2,9],
+                    [9,2,9],
+                    [9,2,9],
+                    [9,2,9],
                     ]
             break;
             case MapType.STRAIGHT_RIGHT:
                 map =[
-                    [0,0,0],
+                    [9,9,9],
                     [2,2,2],
-                    [0,0,0],
+                    [9,9,9],
                     [0,0,0],
                     ]
             break;
             case MapType.RIGHT_CURVE:
                 map =[
-                    [0,0,0],
-                    [0,4,2],
-                    [0,2,0],
-                    [0,2,0],
+                    [9,9,9],
+                    [9,4,2],
+                    [9,2,9],
+                    [9,2,9],
                     ]
             break;
             case MapType.RIGHT_CURVE_REVERSE:
                 map =[
-                    [0,2,0],
-                    [0,4,2],
-                    [0,0,0],
+                    [9,2,9],
+                    [9,4,2],
+                    [9,9,9],
                     [0,0,0],
                     ]
             break;
             case MapType.RIGHT_CURVE_ZIGZAG:
                 map =[
-                    [0,0,0],
-                    [0,0,4],
-                    [0,4,5],
-                    [0,2,0],
+                    [0,0,9],
+                    [0,9,4],
+                    [9,4,5],
+                    [9,2,9],
                     ]
             break;
             case MapType.RIGHT_CURVE_ZIGZAG2:
                 map =[
-                    [0,0,0],
-                    [0,0,4],
-                    [0,0,2],
-                    [0,4,5],
+                    [0,0,9],
+                    [0,9,4],
+                    [0,9,2],
+                    [9,4,5],
+                    ]
+            break;
+            case MapType.START:
+                map =[
+                    [9,2,9],
+                    [9,2,9],
+                    [9,2,9],
+                    [9,8,9],
                     ]
             break;
 
@@ -293,15 +313,23 @@ class Map extends GameObject{
                     Map.createLineX -= Game.width/3;
                 }
             break;
+            case MapType.START:
+                Map.createLineY -= Game.height/4;
+            break;
 
         }
 
     }
 
     updateContent(){}
+
+    addDestroyMethod(){
+        Map.createLineX = 0;
+        Map.createLineY = 0;
+    }
 }
 
-class Chip extends GameCompornent{
+class Chip extends PhysicsObject{
 
 
     constructor(x : number, y:number, width:number, height:number) {
@@ -309,6 +337,17 @@ class Chip extends GameCompornent{
         //this.setBody(x,y,width,height);
         //this.setShape(0, 0, width,height,ColorPallet.BLUE);
         
+    }
+
+    //override
+    setCompornent(x : number, y : number, width : number, height : number){
+
+        this.compornent = new egret.DisplayObjectContainer();
+        this.compornent.x = x;
+        this.compornent.y = y;
+        this.compornent.width = width;
+        this.compornent.height = height;
+        GameStage.display.addChildAt(this.compornent, Background.I.index);
     }
 
 
@@ -329,22 +368,45 @@ class Chip extends GameCompornent{
         
     }*/
 
-    setShape(x: number, y:number, width:number, height:number,color:number){
+    // setShape(x: number, y:number, width:number, height:number,color:number){
+    //     const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true,4);
+    //     this.compornent.addChild(shape);
+    //     this.shapes.push(shape);
+    // }
 
-        const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true);
+    protected setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
+
+        this.body = new p2.Body({mass : 1, 
+            position:[x,y], 
+            type:p2.Body.STATIC
+        });
+        this.bodyShape = new p2.Box({
+            width : width, 
+            height: height, 
+            fixedRotation:true, 
+            sensor:true,
+            collisionGroup: collisionGroup, 
+            collisionMask:GraphicShape.PLAYER
+        });
+        this.body.position[0] += width/2;
+        this.body.position[1] += height/2;
+        this.body.addShape(this.bodyShape);
+        PhysicsObject.world.addBody(this.body);
+        
+    }
+
+    setShape(x: number, y:number, width:number, height:number,color:number){
+        const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true,4);
         this.compornent.addChild(shape);
         this.shapes.push(shape);
-        //this.compornent.anchorOffsetX += width/2;
-        //this.compornent.anchorOffsetY += height/2;
-        
-
     }
 
-    updateContent(){
-/*        if(this.compornent.y > Player.I.compornent.y + Game.height*2){
+    fixedUpdate(){
+        if(Player.I.compornent.y + Game.height < this.compornent.y){
             this.destroy();
-        }*/
+        }
     }
+
 
 }
 
@@ -357,29 +419,92 @@ class None extends Chip{
 
 }
 
-class Road extends Chip{
-    constructor(x : number, y:number, width:number, height:number) {
-        super(x, y, width,height);
-        //this.setBody(x,y,width,height);
-        this.setShape(0, 0, width,height,ColorPallet.BLUE);
-    }
+// class Road extends Chip{
+//     constructor(x : number, y:number, width:number, height:number) {
+//         super(x, y, width,height);
+//         //this.setBody(x,y,width,height);
+//         this.setShape(0, 0, width,height,ColorPallet.BLUE);
+//     }
 
-}
+// }
 
 
 class Run extends Chip{
 
     constructor(x : number, y:number, width:number, height:number) {
         super(x, y, width,height);
-        //this.setBody(x,y,width,height);
+        this.setBody(x,y,width,height,GraphicShape.RUN);
         this.setShape(0, 0, width,height,ColorPallet.RED);
+        
+        //処理速度向上用
+        if(this.body){
+            PhysicsObject.world.removeBody(this.body);
+            this.body = null;
+        }
     }
-
-
 
 }
 
-class Turn extends PhysicsObject{
+class GameOverChip extends Chip{
+
+    constructor(x : number, y:number, width:number, height:number) {
+        super(x, y, width,height);
+        this.setBody(x,y,width,height,GraphicShape.GAMEOVER);
+        //this.setShape(0, 0, width,height,ColorPallet.VERMILION);
+    }
+
+}
+
+class Start extends Chip{
+    static start:Start[]=[];
+    static chipNumber : number = 0;
+    public number : number = 0;
+
+    constructor(x : number, y:number, width:number, height:number) {
+        super(x, y, width,height);
+        this.setBody(x,y,width/2,GraphicShape.START);
+        this.setShape(0, 0, width/2*3,ColorPallet.RED);
+        Start.start.push(this);
+
+    }
+
+    //override
+    protected setBody(x : number, y : number, radius : number, collisionGroup:GraphicShape){
+
+        this.body = new p2.Body({mass : 1, 
+            position:[x,y], 
+            type:p2.Body.STATIC
+        });
+        this.bodyShape = new p2.Circle({
+            radius:radius,
+            fixedRotation:true, 
+            sensor:true,
+            collisionGroup: collisionGroup, 
+            collisionMask:GraphicShape.PLAYER
+        });
+        this.body.position[0] += radius;
+        this.body.position[1] += radius;
+        this.body.addShape(this.bodyShape);
+        PhysicsObject.world.addBody(this.body);
+        
+    }
+
+    //override
+    setShape(x: number, y:number, radius:number,color:number){
+
+        const shape : egret.Shape = Util.setCircle(x,y,radius,color,true);
+        this.compornent.anchorOffsetX -= this.compornent.width/2;
+        this.compornent.anchorOffsetY -= this.compornent.height/2;
+        // shape.x += this.compornent.width/2;
+        // shape.y += this.compornent.height/2;
+        this.compornent.addChild(shape);
+        this.shapes.push(shape);
+        
+
+    }
+}
+
+class Turn extends Chip{
 
     static turn:Turn[]=[];
     static chipNumber : number = 0;
@@ -406,39 +531,45 @@ class Turn extends PhysicsObject{
         this.jump = jump;
 
         this.replaceTurnChip(mapNumber,this.number, reverseX);
+
+        //処理速度向上用
+        if(this.body){
+            PhysicsObject.world.removeBody(this.body);
+            this.body = null;
+        }
        
     }
 
-    private setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
+    // protected setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
 
-        this.body = new p2.Body({mass : 1, 
-            position:[x,y], 
-            type:p2.Body.STATIC
-        });
-        this.bodyShape = new p2.Box({
-            width : width, height: height, 
-            fixedRotation:true, 
-            sensor:true,
-            collisionGroup: collisionGroup, 
-            collisionMask:GraphicShape.PLAYER
-        });
-        this.body.position[0] += width/2;
-        this.body.position[1] += height/2;
-        this.body.addShape(this.bodyShape);
-        PhysicsObject.world.addBody(this.body);
+    //     this.body = new p2.Body({mass : 1, 
+    //         position:[x,y], 
+    //         type:p2.Body.STATIC
+    //     });
+    //     this.bodyShape = new p2.Box({
+    //         width : width, height: height, 
+    //         fixedRotation:true, 
+    //         sensor:true,
+    //         collisionGroup: collisionGroup, 
+    //         collisionMask:GraphicShape.PLAYER
+    //     });
+    //     this.body.position[0] += width/2;
+    //     this.body.position[1] += height/2;
+    //     this.body.addShape(this.bodyShape);
+    //     PhysicsObject.world.addBody(this.body);
         
-    }
+    // }
 
-    setShape(x: number, y:number, width:number, height:number,color:number){
+    // setShape(x: number, y:number, width:number, height:number,color:number){
 
-        const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true);
-        this.compornent.addChild(shape);
-        this.shapes.push(shape);
-        //this.compornent.anchorOffsetX += width/2;
-        //this.compornent.anchorOffsetY += height/2;
+    //     const shape : egret.Shape = Util.setRect(x,y,width,height,color,30,true,4);
+    //     this.compornent.addChild(shape);
+    //     this.shapes.push(shape);
+    //     //this.compornent.anchorOffsetX += width/2;
+    //     //this.compornent.anchorOffsetY += height/2;
         
 
-    }
+    // }
 
     //chipは配列の関係上左から右へ配置されるので、右折の時は問題ないが、
     //zigzagで左折を使いたい場合、chipNumberの順番にplayerが通らないことあるのでその補正。

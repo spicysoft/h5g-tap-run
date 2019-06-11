@@ -10,9 +10,9 @@ class Description extends UICompornent{
         super(x,y,width,height);
         Description.I = this;
         this.textColor = color;
-        Score.bestScore = SaveData.object.bestScore;
         this.setText();
-        
+        UILayer.display.once( egret.TouchEvent.TOUCH_BEGIN, this.push, this );
+
     }
 
     setText(){
@@ -34,5 +34,10 @@ class Description extends UICompornent{
     }
 
     updateContent(){}
+
+    push(){
+        Player.gameStart = true;
+        this.destroy();
+    }
 
 }

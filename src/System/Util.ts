@@ -129,12 +129,20 @@ class Util{
         return object;
     }
 
-    static setRect(x : number, y : number, width : number, height : number, color:number, round:number, fill:boolean, lineWidth?:number):egret.Shape{
+    static setRect(x : number, y : number, width : number, height : number, color:number, round:number, fill:boolean, lineWidth?:number, lineColor?:number):egret.Shape{
 
         const shape:egret.Shape = new egret.Shape();
         shape.x = x;
         shape.y = y;
         if(fill){
+
+            if(lineWidth){
+                if(!lineColor){
+                    lineColor = color;
+                }
+                shape.graphics.lineStyle(lineWidth,lineColor);
+            }
+
             shape.graphics.beginFill(color);
             shape.graphics.drawRoundRect(0, 0, width , height, round);
             shape.graphics.endFill();

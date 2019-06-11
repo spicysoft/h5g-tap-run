@@ -6,7 +6,7 @@ class Background extends GameObject{
     color :number = ColorPallet.GREEN;
 
     static createPosY : number = 0;
-    //static cloud : Cloud[]=[];
+    public index : number;
     
 
 
@@ -27,6 +27,8 @@ class Background extends GameObject{
         this.compornent.width = width;
         this.compornent.height = height;
         GameObject.display.addChild(this.compornent);
+        this.index = GameObject.display.getChildIndex(this.compornent) ;
+
     }
 
     private setShape(x:number, y:number,width:number,height:number,color:number){
