@@ -134,6 +134,7 @@ class Map extends GameObject{
                 this.setMap(MapType.STRAIGHT_UP,        false);
             break;
 
+
         }
     }
 
@@ -212,7 +213,7 @@ class Map extends GameObject{
                     [9,9,9],
                     [2,2,2],
                     [9,9,9],
-                    [0,0,0],
+                    [9,0,0],
                     ]
             break;
             case MapType.RIGHT_CURVE:
@@ -228,7 +229,7 @@ class Map extends GameObject{
                     [9,2,9],
                     [9,4,2],
                     [9,9,9],
-                    [0,0,0],
+                    [0,0,9],
                     ]
             break;
             case MapType.RIGHT_CURVE_ZIGZAG:
