@@ -48,8 +48,8 @@ abstract class GameObject {
             this.shapes = [];
         }
         Util.remove(GameObject.display, this.compornent);
-        const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
-        GameObject.objects = newArray;
+        // const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
+        // GameObject.objects = newArray;
     }
 
     static allDestroy(){
@@ -113,8 +113,8 @@ abstract class GameCompornent extends GameObject{
         if(this.compornent){
             Util.remove(GameStage.display, this.compornent);
         }
-        const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
-        GameObject.objects = newArray;
+        // const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
+        // GameObject.objects = newArray;
     }
 
 }
@@ -154,8 +154,8 @@ abstract class UICompornent extends GameObject{
         if(this.compornent){
             Util.remove(UILayer.display, this.compornent);
         }
-        const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
-        GameObject.objects = newArray;
+        // const newArray : GameObject[] = GameObject.objects.filter(obj => obj.destroyFlag !== true);
+        // GameObject.objects = newArray;
     }
 
 }
