@@ -390,14 +390,15 @@ class GameOverChip extends PhysicsObject{
 
 
     setShape(x: number, y:number, width:number, height:number,color:number){
-        const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true,4);
+        const shape : egret.Shape = Util.setRect(x,y,width,height,color,0,true);
         this.compornent.addChild(shape);
         this.shapes.push(shape);
     }
 
     protected setBody(x : number, y : number, width : number, height : number, collisionGroup:GraphicShape){
 
-        this.body = new p2.Body({mass : 1, 
+        this.body = new p2.Body({
+            // mass : 1, 
             position:[x,y], 
             type:p2.Body.STATIC
         });
@@ -406,6 +407,8 @@ class GameOverChip extends PhysicsObject{
             height: height, 
             fixedRotation:true, 
             sensor:true,
+            fixedX:true,
+            fixedY:true,
             collisionGroup: collisionGroup, 
             collisionMask:GraphicShape.PLAYER
         });
@@ -451,7 +454,8 @@ class Start extends PhysicsObject{
     //override
     protected setBody(x : number, y : number, radius : number, collisionGroup:GraphicShape){
 
-        this.body = new p2.Body({mass : 1, 
+        this.body = new p2.Body({
+            // mass : 1, 
             position:[x,y], 
             type:p2.Body.STATIC
         });
@@ -459,6 +463,8 @@ class Start extends PhysicsObject{
             radius:radius,
             fixedRotation:true, 
             sensor:true,
+            fixedX:true,
+            fixedY:true,
             collisionGroup: collisionGroup, 
             collisionMask:GraphicShape.PLAYER
         });

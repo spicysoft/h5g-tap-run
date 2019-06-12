@@ -62,6 +62,8 @@ class Player extends PhysicsObject{
         this.bodyShape = new p2.Circle({
             radius : radius,
             fixedRotation:true,
+            fixedX:true,
+            fixedY:true,
             collisionGroup: GraphicShape.PLAYER, 
             collisionMask: GraphicShape.START | GraphicShape.GAMEOVER,
         });
