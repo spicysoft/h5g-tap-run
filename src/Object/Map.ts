@@ -343,7 +343,7 @@ class Chip extends GameCompornent{
     }
 
     updateContent(){
-        if(Player.I.compornent.y + Game.height < this.compornent.y){
+        if(Player.I.compornent.y + Game.height/2 < this.compornent.y){
             this.destroy();
         }
     }
@@ -420,7 +420,7 @@ class GameOverChip extends PhysicsObject{
     }
 
     fixedUpdate(){
-        if(Player.I.compornent.y + Game.height < this.compornent.y){
+        if(Player.I.compornent.y + Game.height/2 < this.compornent.y){
             this.destroy();
         }
     }
@@ -486,7 +486,7 @@ class Start extends PhysicsObject{
     }
 
     fixedUpdate(){
-        if(Player.I.compornent.y + Game.height < this.compornent.y){
+        if(Player.I.compornent.y + Game.height/2 < this.compornent.y){
             this.destroy();
         }
     }

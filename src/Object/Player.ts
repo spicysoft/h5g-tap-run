@@ -156,20 +156,20 @@ class Player extends PhysicsObject{
                 highSpeed();
             break;
             case Type.SPEED_ZOOM:
-                if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                if(Camera2D.scale == CameraScale.ZOOM_IN){
                     zoomDefault();
                 }
                 else if(Camera2D.scale == CameraScale.NORMAL){
-                    zoomOut();
+                    zoomIn();
                 }
                 highSpeed();
             break;
             case Type.SPEED_ROTATE_ZOOM:
-                if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                if(Camera2D.scale == CameraScale.ZOOM_IN){
                     zoomDefault();
                 }
                 else if(Camera2D.scale == CameraScale.NORMAL){
-                    zoomOut();
+                    zoomIn();
                 }
                 highSpeed();
             break;
