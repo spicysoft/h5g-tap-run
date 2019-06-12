@@ -103,7 +103,9 @@ class Player extends PhysicsObject{
 
             const randomType :number = Util.randomInt(Type.NORMAL,Type.SPEED_ROTATE_ZOOM);
             Camera2D.type = randomType;
-                    this.changeCameraType();
+            this.changeCameraType();
+
+            Score.addScore();
 
         }
         
@@ -182,7 +184,7 @@ class Player extends PhysicsObject{
         }
 
         function speedDefault(){
-            Player.I.speed = 5.5 + Player.I.plusSpeed;
+            Player.I.speed = 6.5 + Player.I.plusSpeed;
         }
         function highSpeed(){
             Player.I.speed = 6.5 + Player.I.plusSpeed;
