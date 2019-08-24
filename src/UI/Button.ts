@@ -67,15 +67,32 @@ abstract class Button extends UICompornent{
 }
 
 class RetryButton extends Button{
+    onTouch : boolean = false;
     constructor(x : number, y : number, width : number, height : number, size:number, ratio:number, index : string){
         super(x, y, width, height, index);
         this.setShape(0, 0, width, height);
         this.setIndexText(0,0,width,height,size, ratio,index);
         this.setMask(x, y, width, height);
+        this.compornent.anchorOffsetX += this.compornent.width /2;
+        this.compornent.anchorOffsetY += this.compornent.height/2;
     }
 
     tap(){
-        GameOver.tap();
+        if(!this.onTouch){
+            this.onTouch = true;
+            this.pushEffect(this.compornent,1.15);
+        }
+    }
+
+    pushEffect(display : egret.DisplayObjectContainer, scale : number){
+
+        egret.Tween.get(display) 
+            .to({scaleX:scale, scaleY:scale}, 50, egret.Ease.quadIn)
+            .to({scaleX:1, scaleY:1}, 100)
+            // .wait(30)
+            .call(()=> {
+            GameOver.tap();
+        });
     }
 
     updateContent(){}

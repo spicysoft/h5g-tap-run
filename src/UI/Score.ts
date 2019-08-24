@@ -23,7 +23,8 @@ class Score extends UICompornent{
 
     setText(){
         this.text = Util.myText(Game.width/2*0, 0, "0", 60, 0.5, this.textColor, true);
-        this.text.x = (Game.width - this.text.width)/2;
+        this.text.anchorOffsetX = this.text.width/2;
+        // this.text.x = (Game.width - this.text.width)/2;
         this.compornent.addChild( this.text );
 
         this.textBest = Util.myText(0, 0, "BEST:" + Score.bestScore.toString(), 60, 0.5, this.textColor, true);
@@ -54,7 +55,9 @@ class Score extends UICompornent{
 
     updateContent() {
         this.text.text = Score.score.toFixed();
-        this.text.x = (Game.width - this.text.width)/2;
+        // this.text.x = (Game.width - this.text.width)/2;
+        this.text.anchorOffsetX = this.text.width/2;
+        this.text.x = Game.width /2;
         if( Score.bestScore < Score.score ){
             Score.bestScore = Score.score;
             this.textBest.text = "BEST:" + Score.bestScore.toFixed();

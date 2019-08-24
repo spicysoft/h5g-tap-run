@@ -131,6 +131,9 @@ class Player extends PhysicsObject{
                 else if(Camera2D.scale == CameraScale.NORMAL){
                     zoomIn();
                 }
+                else if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                    zoomDefault();
+                }
                 speedDefault();
             break;
             case Type.ROTATE_ZOOM:
@@ -139,6 +142,9 @@ class Player extends PhysicsObject{
                 }
                 else if(Camera2D.scale == CameraScale.NORMAL){
                     zoomIn();
+                }
+                else if(Camera2D.scale == CameraScale.ZOOM_OUT){
+                    zoomDefault();
                 }
                 speedDefault();
             break;
@@ -162,6 +168,9 @@ class Player extends PhysicsObject{
                 else if(Camera2D.scale == CameraScale.NORMAL){
                     zoomOut();
                 }
+                else if(Camera2D.scale == CameraScale.ZOOM_IN){
+                    zoomDefault();
+                }
                 highSpeed();
             break;
             case Type.SPEED_ROTATE_ZOOM:
@@ -170,6 +179,9 @@ class Player extends PhysicsObject{
                 }
                 else if(Camera2D.scale == CameraScale.NORMAL){
                     zoomOut();
+                }
+                else if(Camera2D.scale == CameraScale.ZOOM_IN){
+                    zoomDefault();
                 }
                 highSpeed();
             break;
@@ -283,7 +295,7 @@ class Player extends PhysicsObject{
             .to({scaleX:scale, scaleY:scale}, 300, egret.Ease.quadIn)
             .call(()=> {
                 new GameOver(0,0,0,0);
-                new RetryButton((Game.width - Game.width*0.4)/2, Game.height*0.65, Game.width * 0.4, Game.width*0.18, 80, 0.5, "リトライ");
+                new RetryButton(Game.width/2, Game.height*0.7, Game.width * 0.4, Game.width*0.18, 80, 0.5, "リトライ");
         });
     }
 
